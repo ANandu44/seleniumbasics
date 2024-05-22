@@ -2,10 +2,12 @@ package org.selenium.basics;
 
 import java.util.List;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public class WebElementCommands {
 	public void verifySwagLabsLogin()
@@ -174,6 +176,137 @@ public class WebElementCommands {
 		System.out.println("vote button displayed or not"+isVoteButtonDisplayed);
 		
 	}
+	
+	public void verifyValuesFromDropdown() 
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/newtours/register.php");
+		driver.manage().window().maximize();
+		WebElement country_dropdown=driver.findElement(By.xpath("//select[@name='country']"));
+		Select select=new Select(country_dropdown);
+		//select.selectByVisibleText("ALGERIA");
+		//select.selectByIndex(5);
+		select.selectByValue("AUSTRIA");
+		WebElement selected_country=select.getFirstSelectedOption();
+		System.out.println(selected_country.getText());
+	}
+	
+	public void verifyTotalDropdownValues()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/newtours/register.php");
+		driver.manage().window().maximize();
+		WebElement country_dropdown=driver.findElement(By.xpath("//select[@name='country']"));
+		Select select=new Select(country_dropdown);
+		List<WebElement> dropdownlist=select.getOptions();
+		System.out.println("total no of options in dropdown-"+dropdownlist);
+	}
+	
+	public void verifyMultipleOptionsFromDropdown()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://selenium.qabible.in/select-input.php");
+		driver.manage().window().maximize();
+		WebElement multiselect=driver.findElement(By.xpath("//select[@id='multi-select-field']"));
+		Select select=new Select(multiselect);
+		boolean selected_values=select.isMultiple();
+		System.out.println("check whether values are selected"+selected_values);
+		select.selectByIndex(2);
+		select.selectByIndex(0);
+		List<WebElement> listofselectedoptions=select.getAllSelectedOptions();
+		for(WebElement e:listofselectedoptions)
+		{
+			System.out.println(e.getText());
+		}
+		select.deselectByIndex(0);
+		
+		
+		
+	}
+	
+	public void verifyColorFromDropdown()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://selenium.qabible.in/select-input.php");
+		driver.manage().window().maximize();
+		WebElement select_color=driver.findElement(By.cssSelector("select#single-input-field"));
+		Select select =new Select(select_color);
+		select.selectByValue("Yellow");
+		WebElement message_display=driver.findElement(By.cssSelector("div#message-one"));
+		String message=message_display.getText();
+		System.out.println(message);
+	}
+	
+	public void verifySimpleAlert()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/alerts");
+		driver.manage().window().maximize();
+		WebElement clickme_button=driver.findElement(By.cssSelector("button#alertButton"));
+		clickme_button.click();
+		Alert alert=driver.switchTo().alert();
+		alert.accept();
+		driver.close();
+	}
+	
+	public void verifyConformationAlert()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/alerts");
+		driver.manage().window().maximize();
+		WebElement clickme_button=driver.findElement(By.cssSelector("button#confirmButton"));
+		clickme_button.click();
+		Alert alert=driver.switchTo().alert();
+		String alert_message=alert.getText();
+		System.out.println(alert_message);
+		//alert.accept();
+		alert.dismiss();
+		WebElement result_message=driver.findElement(By.cssSelector("span#confirmResult"));
+		String result=result_message.getText();
+		System.out.println("after clicking alertbox-"+result);
+	
+	}
+	
+	public void verifyPromptAlert()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/alerts");
+		driver.manage().window().maximize();
+		WebElement clickme_button=driver.findElement(By.xpath("//button[@id='promtButton']"));
+		clickme_button.click();
+		Alert alert=driver.switchTo().alert();
+		String alert_text=alert.getText();
+		System.out.println(alert_text);
+		alert.sendKeys("anandu");
+		alert.accept();
+		WebElement result_message=driver.findElement(By.xpath("//span[@id='promptResult']"));
+		String result=result_message.getText();
+		System.out.println(result);
+		driver.close();
+		
+	}
+	
+	public void verifyCustomerDelete()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/delete_customer.php");
+		driver.manage().window().maximize();
+		WebElement customer_id=driver.findElement(By.xpath("//input[@name='cusid']"));
+		customer_id.sendKeys("123456");
+		WebElement submit_button=driver.findElement(By.xpath("//input[@name='submit']"));
+		submit_button.click();
+		Alert alert=driver.switchTo().alert();
+		String alert_message=alert.getText();
+		System.out.println(alert_message);
+		alert.accept();
+		String conformation_message=alert.getText();
+		System.out.println(conformation_message);
+		alert.accept();
+		driver.close();
+		
+	}
+	
+	
 
 	public static void main(String[] args) {
 		WebElementCommands obj=new WebElementCommands();
@@ -186,7 +319,17 @@ public class WebElementCommands {
 		//obj.verifyGuru99Registration();
 		//obj.verifyIsDisplayed();
 		//obj.verifyIsEnabled();
-		obj.verifyIsSelected();
+		//obj.verifyIsSelected();
+		//obj.verifyValuesFromDropdown();
+		//obj.verifyTotalDropdownValues();
+		//obj.verifyMultipleOptionsFromDropdown();
+		//obj.verifyColorFromDropdown();
+		//obj.verifySimpleAlert();
+	    //obj.verifyConformationAlert();
+		//obj.verifyPromptAlert();
+		obj.verifyCustomerDelete();
+		
+		
 
 	}
 
