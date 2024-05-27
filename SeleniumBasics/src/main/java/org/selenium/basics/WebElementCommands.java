@@ -1,12 +1,15 @@
 package org.selenium.basics;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 public class WebElementCommands {
@@ -68,6 +71,7 @@ public class WebElementCommands {
 		List<WebElement> inputtype=driver.findElements(By.tagName("input"));
 		int inputsize=inputtype.size();
 		System.out.println("total no of input tag is"+inputsize);
+		
 		
 	}
 	
@@ -306,6 +310,187 @@ public class WebElementCommands {
 		
 	}
 	
+	public void verifyFileUpload()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/upload/");
+		driver.manage().window().maximize();
+		WebElement choose_file=driver.findElement(By.cssSelector("input#uploadfile_0"));
+		choose_file.sendKeys("C:\\Users\\chand\\git\\seleniumbasics\\SeleniumBasics\\src\\main\\resources\\Execution and Bug Report - v1-1.xlsx");
+		WebElement checkbox=driver.findElement(By.xpath("//input[@id='terms']"));
+		checkbox.click();
+		WebElement submit_button=driver.findElement(By.xpath("//button[@id='submitbutton']"));
+		submit_button.click();
+		
+	}
+	
+	public void verifyFrames()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/frames");
+		driver.manage().window().maximize();
+		List<WebElement> numberofframe_tags=driver.findElements(By.tagName("iframe"));
+		int total=numberofframe_tags.size();
+		System.out.println("no of frame tags-"+total);
+		//driver.switchTo().frame(1);
+		//driver.switchTo().frame("frame1");
+		WebElement frame_1=driver.findElement(By.id("frame1"));
+		driver.switchTo().frame(frame_1);
+		WebElement textofframe=driver.findElement(By.id("sampleHeading"));
+		String text=textofframe.getText();
+		System.out.println(text);
+		
+	}
+	
+	public void verifyFramesAssignment()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://www.hyrtutorials.com/p/frames-practice.html");
+		driver.manage().window().maximize();
+		WebElement textbox=driver.findElement(By.xpath("//input[@id='name']"));
+		textbox.sendKeys("frames test");
+		WebElement frame1=driver.findElement(By.id("frm1"));
+		driver.switchTo().frame(frame1);
+		WebElement course_name=driver.findElement(By.id("course"));
+		Select select=new Select(course_name);
+		select.selectByIndex(2);
+		driver.switchTo().defaultContent();
+		WebElement frame2=driver.findElement(By.id("frm2"));
+		driver.switchTo().frame(frame2);
+		WebElement language_dropdown=driver.findElement(By.id("selectnav1"));
+		Select select2 =new Select(language_dropdown);
+		select2.selectByIndex(2);
+		
+		
+		
+		
+			}
+	
+	public void verifyRightClick()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/simple_context_menu.html");
+		driver.manage().window().maximize();
+		WebElement RightClickbutton=driver.findElement(By.xpath("//span[text()='right click me']"));
+		Actions action=new Actions(driver);
+		action.contextClick(RightClickbutton).build().perform();
+		
+		
+		
+	}
+	
+	
+	
+	public void verifyDoubleClick()
+	{
+		WebElement doubleclick_button=driver.findElement(By.xpath("//button[text()='Double-Click Me To See Alert']"));
+		Actions action=new Actions(driver);
+		action.doubleClick(doubleclick_button).build().perform();
+		Alert alert=driver.switchTo().alert();
+		String alert_message=alert.getText();
+		System.out.println(alert_message);
+		alert.accept();
+		//driver.close();
+		
+		
+	}
+	
+	public void verifyMouseHover()
+	{
+
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/menu/draggable");
+		driver.manage().window().maximize();
+		WebElement main_item2=driver.findElement(By.xpath("//a[text()='Main Item 2']"));
+		Actions action=new Actions(driver);
+		action.moveToElement(main_item2).build().perform();
+		WebElement sub_sublist=driver.findElement(By.xpath("//a[text()='SUB SUB LIST »']"));
+		action.moveToElement(sub_sublist).build().perform();
+	}
+	
+	public void verifyDragandDrop()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/droppable");
+		driver.manage().window().maximize();
+		WebElement drag_me=driver.findElement(By.xpath("//div[@id='draggable']"));
+		WebElement drop_here=driver.findElement(By.xpath("//div[@id='simpleDropContainer']//div[@id='droppable']"));
+		Actions action=new Actions(driver);
+		action.dragAndDrop(drag_me, drop_here).build().perform();
+		
+		
+	}
+	
+	public void verifyDragandOffest()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/draggable");
+		driver.manage().window().maximize();
+	
+	}
+	
+	public void verifyMultipleWindowHandling()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/popup.php");
+		driver.manage().window().maximize();
+		String parentwindowhandle_id=driver.getWindowHandle();
+		System.out.println(parentwindowhandle_id);
+		WebElement clickhere_button=driver.findElement(By.xpath("//a[text()='Click Here']"));
+		clickhere_button.click();
+		Set<String> windowshandles_id=driver.getWindowHandles();
+		System.out.println(windowshandles_id);	
+		Iterator<String> value=windowshandles_id.iterator();
+		while(value.hasNext())
+		{
+			String handleid=value.next();
+			if(!handleid.equals(parentwindowhandle_id))
+			{
+				driver.switchTo().window(handleid);
+				WebElement email_id=driver.findElement(By.xpath("//input[@name='emailid']"));
+				email_id.sendKeys("anandu@gmail.com");
+				WebElement submit_button=driver.findElement(By.xpath("//input[@name='btnLogin']"));
+				submit_button.click();
+				
+				
+			}
+		}
+		
+		driver.switchTo().defaultContent();
+		driver.quit();
+	}
+	
+	public void verifyDynamicTable()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://money.rediff.com/indices");
+		driver.manage().window().maximize();
+		WebElement show_more=driver.findElement(By.xpath("//a[@id='showMoreLess']"));
+		show_more.click();
+		WebElement webtable=driver.findElement(By.xpath("//table[@id='dataTable']//tbody"));
+		List<WebElement> rows=webtable.findElements(By.tagName("tr"));
+		int rowsize=rows.size();
+		for(int i=0;i<rowsize;i++)
+		{
+			List<WebElement> column=rows.get(i).findElements(By.tagName("td"));
+			int columnsize=column.size();
+			for(int j=0;j<columnsize;j++)
+			{
+				String celltext=column.get(j).getText();
+				//System.out.println(celltext);
+				if(celltext.equals("S&P BSE 200"))
+				{
+					System.out.println(column.get(2).getText());
+				}
+						
+					
+									
+						
+			}
+			
+		}
+	}
+	
 	
 
 	public static void main(String[] args) {
@@ -323,11 +508,20 @@ public class WebElementCommands {
 		//obj.verifyValuesFromDropdown();
 		//obj.verifyTotalDropdownValues();
 		//obj.verifyMultipleOptionsFromDropdown();
-		//obj.verifyColorFromDropdown();
+		obj.verifyColorFromDropdown();
 		//obj.verifySimpleAlert();
 	    //obj.verifyConformationAlert();
 		//obj.verifyPromptAlert();
-		obj.verifyCustomerDelete();
+		//obj.verifyCustomerDelete();
+		//obj.verifyFileUpload();
+		//obj.verifyFrames();
+		//obj.verifyFramesAssignment();
+		//obj.verifyRightClick();
+		//obj.verifyMultipleWindowHandling();
+		//obj.verifyDoubleClick();
+		obj.verifyDragandDrop();
+		//obj.verifyMouseHover();
+		//obj.verifyDynamicTable();
 		
 		
 
