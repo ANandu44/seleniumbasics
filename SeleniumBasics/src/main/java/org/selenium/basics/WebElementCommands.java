@@ -145,7 +145,7 @@ public class WebElementCommands {
 	{
 		boolean ismaleselected;
 		WebDriver driver=new ChromeDriver();
-		driver.get("https://demowebshop.tricentis.com/");
+		driver.get("https://demowebshop.tricentis.com/register");
 		driver.manage().window().maximize();
 		WebElement gendermale_field=driver.findElement(By.xpath("//input[@id='gender-male']"));
 		ismaleselected=gendermale_field.isSelected();
@@ -383,6 +383,10 @@ public class WebElementCommands {
 	
 	public void verifyDoubleClick()
 	{
+
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/simple_context_menu.html");
+		driver.manage().window().maximize();
 		WebElement doubleclick_button=driver.findElement(By.xpath("//button[text()='Double-Click Me To See Alert']"));
 		Actions action=new Actions(driver);
 		action.doubleClick(doubleclick_button).build().perform();
