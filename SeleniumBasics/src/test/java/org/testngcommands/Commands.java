@@ -1,9 +1,17 @@
 package org.testngcommands;
 
+import java.time.Duration;
+import java.util.NoSuchElementException;
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -23,7 +31,6 @@ public class Commands extends BrowserLaunch {
 	public void verifyDemoWebshopLogin()
 	{
 		driver.get("https://demowebshop.tricentis.com/");
-		driver.manage().window().maximize();
 		WebElement login_field=driver.findElement(By.className("ico-login"));
 		login_field.click();
 		WebElement email_field=driver.findElement(By.id("Email"));
@@ -45,7 +52,6 @@ public class Commands extends BrowserLaunch {
 	{
 		boolean ismaleselected;
 		driver.get("https://demowebshop.tricentis.com/register");
-		driver.manage().window().maximize();
 		WebElement gendermale_field=driver.findElement(By.xpath("//input[@id='gender-male']"));
 		ismaleselected=gendermale_field.isSelected();
 		Assert.assertFalse(ismaleselected, "Male is selected");
@@ -59,7 +65,6 @@ public class Commands extends BrowserLaunch {
 	public void verifyIsEnabled()
 	{
 		driver.get("https://demowebshop.tricentis.com/");
-		driver.manage().window().maximize();
 		WebElement subscribe_button=driver.findElement(By.xpath("//input[@id='newsletter-subscribe-button']"));
 		boolean isSubscribeButtonEnabled= subscribe_button.isEnabled();
 		Assert.assertTrue(isSubscribeButtonEnabled, "not enabled");
@@ -69,10 +74,68 @@ public class Commands extends BrowserLaunch {
 	public void verifyIsEnaled()
 	{
 		driver.get("https://demowebshop.tricentis.com/");
-		driver.manage().window().maximize();
 		WebElement vote_button=driver.findElement(By.xpath("//input[@id='vote-poll-1']"));
 		boolean isVoteButtonDisplayed=vote_button.isDisplayed();
 		Assert.assertTrue(isVoteButtonDisplayed, "not displayed");
+	}
+	
+	@Test
+	public void verifyJavascriptExecuter()
+	{
+		driver.get("https://demowebshop.tricentis.com/");
+		JavascriptExecutor js=(JavascriptExecutor)driver;
+		js.executeScript("document.getElementById(\"newsletter-email\").value='test23@gmail.com'" );
+		js.executeScript("document.getElementById(\"newsletter-subscribe-button\").click()");
+	}
+	
+	@Test
+	public void verifyVerticalScroll()
+	{
+		driver.get("https://demowebshop.tricentis.com/");
+		JavascriptExecutor js=(JavascriptExecutor)driver;
+		js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+	}
+	
+	@Test
+	public void verifyDemoWebShopLogin()
+	{
+		driver.get("https://demowebshop.tricentis.com/");
+		JavascriptExecutor js=(JavascriptExecutor)driver;
+		
+	}
+	
+	@Test
+	public void verifyWaits()
+	{
+		driver.get("https://demoqa.com/alerts");
+		//driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(10));
+		WebElement clickme_button=driver.findElement(By.xpath("//button[@id='timerAlertButton']"));
+		clickme_button.click();
+		wait.until(ExpectedConditions.alertIsPresent());
+		Alert alert=driver.switchTo().alert();
+		alert.accept();
+		
+		
+	}
+	
+	@Test
+	public void verifyFluentWait()
+	{
+		driver.get("https://demoqa.com/alerts");
+		JavascriptExecutor js=(JavascriptExecutor)driver;
+		js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+		FluentWait wait=new FluentWait(driver);
+		wait.withTimeout(Duration.ofSeconds(10));
+		wait.pollingEvery(Duration.ofSeconds(3));
+		wait.ignoring(NoSuchElementException.class);
+		
+		WebElement clickme_button=driver.findElement(By.xpath("//button[@id='timerAlertButton']"));
+		clickme_button.click();
+		wait.until(ExpectedConditions.alertIsPresent());
+		Alert alert=driver.switchTo().alert();
+		alert.accept();
+		
 	}
 	
 }
