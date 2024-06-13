@@ -15,19 +15,29 @@ public class Excel_Utility {
 	static XSSFSheet sh;
 	
 
-public static String getStringData(int a,int b, String sheetname) throws IOException
+public static String getStringData(int a,int b, String sheetname) 
 {
+	try
+	{
 	f=new FileInputStream("C:\\Users\\chand\\git\\seleniumbasics\\SeleniumBasics\\src\\main\\resources\\TestData.xlsx");
 	w=new XSSFWorkbook(f);
 	sh=w.getSheet(sheetname);
 	Row r=sh.getRow(a);
 	Cell c=r.getCell(b);
 	return c.getStringCellValue();
+	}
+	catch(Exception e)
+	{
+		throw new RuntimeException("Excelsheet not found");
+	}
+	
 }
 
 
-public static String getIntegerData(int a,int b, String sheetname) throws IOException
+public static String getIntegerData(int a,int b, String sheetname) 
 {
+	try
+	{
 	f=new FileInputStream("C:\\Users\\chand\\git\\seleniumbasics\\SeleniumBasics\\src\\main\\resources\\TestData.xlsx");
 	w=new XSSFWorkbook(f);
 	sh=w.getSheet(sheetname);
@@ -35,7 +45,11 @@ public static String getIntegerData(int a,int b, String sheetname) throws IOExce
 	Cell c=r.getCell(b);
 	int x=(int) c.getNumericCellValue();
 	return String.valueOf(x);
-	
+	}
+	catch(Exception e)
+	{
+		throw new RuntimeException("excelsheet not found");
+	}
 	
 }
 

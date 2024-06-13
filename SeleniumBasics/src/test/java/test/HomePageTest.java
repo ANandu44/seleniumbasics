@@ -15,7 +15,7 @@ import utilities.Excel_Utility;
 
 public class HomePageTest extends Base{
 	@Test
-	public void verifyHomePageTitle() throws IOException
+	public void verifyHomePageTitle() 
 	{
 		driver.get("https://demowebshop.tricentis.com/");
 		String actual_title=driver.getTitle();
@@ -26,7 +26,7 @@ public class HomePageTest extends Base{
 	}
 	
 	@Test
-	public void verifyCommunityPollSelection() throws IOException
+	public void verifyCommunityPollSelection() 
 	{
 		driver.get("https://demowebshop.tricentis.com/");
 		//List<WebElement> community_poll=driver.findElements(By.xpath("//ul[@class='poll-options']"));

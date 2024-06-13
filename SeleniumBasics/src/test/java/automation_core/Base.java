@@ -53,7 +53,7 @@ import org.testng.annotations.BeforeMethod;
 		  {
 			  takeScreenShot(result);
 		  }
-		// driver.close();
+		 driver.close();
 	  }
 	  
 	  public void takeScreenShot(ITestResult result) throws IOException
