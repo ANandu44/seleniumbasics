@@ -9,17 +9,18 @@ import org.testng.annotations.Test;
 
 import automation_core.Base;
 import data_provider.Data_Providers;
+import listeners.RetryAnalyzer;
 import utilities.Excel_Utility;
 
 public class LoginPageTest extends Base{
-	@Test
+	@Test(retryAnalyzer=RetryAnalyzer.class)
 	public void verifyLoginPageTitle() 
 	{
 		driver.get("https://demowebshop.tricentis.com/login");
 		String login_title=driver.getTitle();
 		System.out.println("actual title-"+login_title);
 		String expected_title=Excel_Utility.getStringData(0, 0, "Login_Page");
-		System.out.println(expected_title);
+		//System.out.println(expected_title);
 		Assert.assertEquals(login_title, expected_title, "invalid title");
 		
 	}
@@ -68,6 +69,9 @@ public class LoginPageTest extends Base{
 		
 		
 	}
+	
+	
+
 	
 
 }

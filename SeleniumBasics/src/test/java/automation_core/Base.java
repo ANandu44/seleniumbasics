@@ -15,6 +15,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 
   public class Base {
 	  public WebDriver driver;
@@ -41,9 +42,10 @@ import org.testng.annotations.BeforeMethod;
 	  }
 	  
 	  @BeforeMethod
-	  public void setup()
+	  @Parameters("browser")
+	  public void setup(String browser_name)
 	  {
-		  initializeBrowser("Chrome");
+		  initializeBrowser(browser_name);
 	  }
 	  
 	  @AfterMethod

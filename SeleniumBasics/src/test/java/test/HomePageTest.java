@@ -20,7 +20,7 @@ public class HomePageTest extends Base{
 		driver.get("https://demowebshop.tricentis.com/");
 		String actual_title=driver.getTitle();
 		System.out.println(actual_title);
-		String expected_result=Excel_Utility.getStringData(0, 0, "Home_Page");
+		String expected_result=Excel_Utility.getStringData(0, 1, "Home_Page");
 		System.out.println(expected_result);
 		Assert.assertEquals(actual_title, expected_result, "invalid title");
 	}
